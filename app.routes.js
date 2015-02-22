@@ -11,7 +11,7 @@ angular.module('app')
             controller: function($scope, $state, $stateParams) {
                 $scope.params = $stateParams;
                 $scope.go = function (id) {
-                    $state.go('view', {emailId: id});
+                    $state.go('view', {emailId: id, fromState: 'inbox'});
                 };
             }
         })
@@ -24,11 +24,13 @@ angular.module('app')
         .state('view', {
             url: '/view/{emailId}',
             params: {
-                emailId: null
+                emailId: null,
+                fromState: null
             },
             templateUrl: 'modules/emailView/emailView.html',
             controller: function($scope, $stateParams) {
                 $scope.id = $stateParams.emailId;
+                $scope.state = $stateParams.fromState;
             }
         })
 
@@ -38,19 +40,8 @@ angular.module('app')
             controller: function($scope, $state, $stateParams) {
                 $scope.params = $stateParams;
                 $scope.go = function (id) {
-                    $state.go('sentView', {sentId: id});
+                    $state.go('view', {sentId: id, fromState: 'sent'});
                 };
-            }
-        })
-
-        .state('sentView', {
-            url: '/sent/{sentId}',
-            params: {
-                sentId: null
-            },
-            templateUrl: 'modules/sentView/sentView.html',
-            controller: function($scope, $stateParams) {
-                $scope.id = $stateParams.sentId;
             }
         })
 

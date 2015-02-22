@@ -55,7 +55,8 @@ module.exports = function(grunt) {
                     'modules/inbox/customFolder/*.js',
                     'modules/sent/*.js',
                     'modules/sentView/*.js',
-                    'assets/css/*.css'
+                    'assets/css/b*.css',
+                    'assets/css/main.css'
                 ]
                 }
             }

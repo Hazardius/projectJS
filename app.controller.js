@@ -3,7 +3,6 @@ angular.module('app')
 
         var folders = localStorageService.get('localFolders');
         var newStates = {};
-        var emailsInFolders = [];
         $scope.allFolders = [];
         $rootScope.data = {
             theme: ''

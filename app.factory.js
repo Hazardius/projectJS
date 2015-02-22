@@ -27,8 +27,7 @@ angular.module('app')
                 });
             }
         }
-    }]);
-angular.module('app')
+    }])
     .factory('sent', ['$http', function ($http) {
         var sent = [];
 
@@ -44,7 +43,7 @@ angular.module('app')
                     sent = response.data;
                     var thatMail = sent.find(function (element, index, array) {
                         return element.id == id;
-                    })
+                    });
                     console.log(thatMail);
                     return thatMail;
                 });

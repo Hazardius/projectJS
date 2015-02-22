@@ -50,7 +50,7 @@ angular.module('app')
                 };
 
                 scope.$watch('sent', function(value) {
-                    if(scope.sent !== undefined) {
+                    if(scope.sent !== null) {
                         if (scope.sent.length > len) {
                             if (len === 0) {
                                 loadEmails(scope.sent);
