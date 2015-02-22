@@ -7,10 +7,24 @@
             </div>
         </div>
         <div class="col-xs-6">
-            Refresh emails, in milliseconds:&emsp;
-            <div class= "btn-group">
-                <input type="number" class="form-control" ng-model="myInterval">
-            </div>
+            <div class="input-group">
+                <input type="number" class="form-control" placeholder="Enter minutes to refresh emails" ng-model="interval">
+               <span class="input-group-btn">
+               <button class="btn btn-default" ng-click="changeInterval(interval)" type="button">Change</button>
+               </span>
+            </div><!-- /input-group -->
+            <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+        </div>
         </div>
     </div>
+
+</div>
+
+<div class="btn-group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        Themes <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        <li role="presentation" ng-click="addNewFolder()"><a role="menuitem" tabindex="-1" href="">New Folder</a></li>
+    </ul>
 </div>
