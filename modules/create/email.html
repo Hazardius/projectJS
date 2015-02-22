@@ -1,4 +1,4 @@
-<div class="sendotron" ng-controller="emailCtrl">
+<div class="sendotron jumbotron" ng-controller="emailCtrl">
     <form name="formName" novalidate>
         <fieldset class="top-label">
             <div class="receivers">
@@ -20,7 +20,7 @@
                     <div ng-message="checkifexist">This e-mail already is on your list.</div>
                 </div>
 
-                <input type="button" ng-click="myForm.addNewReceiver()" value="Add new receiver" ng-disabled="recerror"/>
+                <input type="button" class="btn btn-default"ng-click="myForm.addNewReceiver()" value="Add new receiver" ng-disabled="recerror"/>
             </div>
         </fieldset>
 
@@ -42,7 +42,7 @@
             </div>
 
 
-            <input type="submit" ng-click="myForm.submitTheForm()" value="Send an e-mail" ng-disabled="error || incomplete"/>
+            <input type="submit" class="btn btn-default" ng-click="myForm.submitTheForm()" value="Send an e-mail" ng-disabled="error || incomplete"/>
         </fieldset>
     </form>
 </div>

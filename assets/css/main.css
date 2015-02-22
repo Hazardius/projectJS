@@ -1,4 +1,7 @@
 /* elements list */
+.container .content {
+  margin-top: 8rem;
+}
 .container .jumbotron {
   padding: 2rem;
 }
@@ -21,6 +24,9 @@
 }
 .container .jumbotron .table-responsive .table tr .glyphicon.glyphicon-remove:hover {
   color: #ffa1c0;
+}
+.container .jumbotron .input-group {
+  margin-bottom: 2rem;
 }
 .container .sendotron {
   padding: 2rem;
@@ -68,6 +74,7 @@
   margin: 14px 0 0;
   padding: 4px 3px 4px;
   line-height: 20px;
+  background-color: white;
 }
 .container .sendotron .left-label input[type=button],
 .container .sendotron .left-label input[type=submit] {
@@ -92,6 +99,7 @@
   display: block;
   line-height: 20px;
   padding: 4px 3px 4px;
+  background-color: white;
 }
 .container .sendotron .top-label input[type=button],
 .container .sendotron .top-label input[type=submit] {

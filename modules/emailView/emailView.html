@@ -6,6 +6,10 @@
             <span ng-click="back()" class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
         </li>
         <li class="list-group-item">
+            <span class="bigger">Received on:</span>
+            {{id | date:'medium'}}
+        </li>
+        <li class="list-group-item">
             <span class="bigger">From:</span>
             {{sender}}
         </li>

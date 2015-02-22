@@ -10,14 +10,14 @@
         <link rel="stylesheet" href="/assets/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="/assets/css/main.css">
-		<link rel="stylesheet" href="/assets/css/{{data.theme}}.min.css">
         <!-- endinjector -->
+        <link rel="stylesheet" data-ng-href="/assets/css/{{data.theme}}.min.css">
     </head>
 
     <body ng-controller="mainCtrl">
 
     <!-- NAVIGATION -->
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button class="navbar-toggle" type="button" ng-init="isCollapsed = true" ng-click="isCollapsed = !isCollapsed">
@@ -51,7 +51,7 @@
     <div class="container">
 
         <!-- THIS IS WHERE WE WILL INJECT OUR CONTENT  -->
-        <div ui-view></div>
+        <div ui-view class="content"></div>
 
     </div>
 
@@ -75,6 +75,7 @@
     <script src="/assets/js/modernizr.custom.83949.js"></script>
     <script src="/assets/js/npm.js"></script>
     <script src="/assets/js/ui-bootstrap-tpls-0.12.0.min.js"></script>
+    <script src="/modules/config/config.controller.js"></script>
     <script src="/modules/create/email.controller.js"></script>
     <script src="/modules/create/email.directive.js"></script>
     <script src="/modules/emailView/emailView.controller.js"></script>
@@ -86,7 +87,6 @@
     <script src="/modules/sent/sent.controller.js"></script>
     <script src="/modules/sent/sent.directive.js"></script>
     <script src="/modules/sentView/sentView.controller.js"></script>
-	<script src="/modules/config/config.controller.js"></script>
     <!-- endinjector -->
     </body>
 

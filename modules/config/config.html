@@ -1,16 +1,20 @@
-<div ng-controller="config">
-
-    <div class= "btn-group">
-    <select ng-model="data.theme" ng-options="bootstrap.url as bootstrap.name for bootstrap in bootstraps"></select>
+<div class="jumbotron" ng-controller="config">
+    <div class="row">
+        <div class="col-xs-6">
+            Change theme:&emsp;
+            <div class= "btn-group">
+                <select class="form-control" ng-model="data.theme" ng-options="bootstrap.url as bootstrap.name for bootstrap in bootstraps"></select>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="input-group">
+                <input type="number" class="form-control" placeholder="Enter minutes to refresh emails" ng-model="interval">
+               <span class="input-group-btn">
+               <button class="btn btn-default" ng-click="changeInterval(interval)" type="button">Change</button>
+               </span>
+            </div><!-- /input-group -->
+            <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+        </div>
+        </div>
     </div>
-
-</div>
-
-<div class="btn-group">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-        Themes <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu">
-        <li role="presentation" ng-click="addNewFolder()"><a role="menuitem" tabindex="-1" href="">New Folder</a></li>
-    </ul>
 </div>
