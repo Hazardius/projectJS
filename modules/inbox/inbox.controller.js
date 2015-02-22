@@ -2,6 +2,12 @@ angular.module('app')
     .controller('emailsCtrl', ['$scope', '$rootScope', 'localStorageService', 'emails', 'inboxFactory',
         function ($scope, $rootScope, localStorageService, emails, inboxFactory) {
             var emailsList = []; // list of emails from request
+
+            $scope.setInterval = localStorageService.get('emailInterval');
+            if ($scope.setInterval === null) {
+                $scope.setInterval = 7000;
+            }
+
             $scope.emails = localStorageService.get('localEmails'); // check if local storage has emails
 
             if ($scope.emails === null) { // local storage has no emails
@@ -59,6 +65,10 @@ angular.module('app')
                 $scope.updateStorage(i);
             });
 
-            setInterval(load,7000); // every 7 sec
+            $rootScope.$on('setInterval', function(e,number){
+                $scope.setInterval = number;
+            });
+
+            setInterval(load,$scope.setInterval); // every 7 sec default
 
     }]);
