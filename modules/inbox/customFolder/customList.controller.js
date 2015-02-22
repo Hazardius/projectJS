@@ -1,36 +1,35 @@
 angular.module('app')
-    .controller('customList', function ($scope, $rootScope, $state, customFolders, emails, localStorageService) {
+    .controller('customList', function ($scope, $rootScope, $state, customFolders, emails, inboxFactory, localStorageService) {
 
         $scope.currentState = $state.current.name; // name of view
-        var allEmails = localStorageService.get('folders'); // get all emails from subfolders
-        var idEmails = [];
 
-        // get id emails which belong to this subfolder
-        for(var i = 0; i<allEmails.length; i++) {
-            if ($scope.currentState === allEmails[i].name) {
-                idEmails.unshift(allEmails[i].id);
-            }
-        }
+        var emailsList = [];
 
-        // get emails by id from server
-        for(var j=0; j<idEmails.length; j++) {
-            emails.getOneEmail(idEmails[j]).then(function(response){
-                $scope.emailsList = response;
-                $rootScope.$broadcast('addEmailsSub',$scope.emailsList);
-            });
+        $scope.submails = localStorageService.get('folders'); // get all emails from subfolders
+        if($scope.submails !== null) {
+            var idEmails = customFolders.getEmails($scope.submails,$scope.currentState);
+            customFolders.getEmailsFromServer(idEmails);
         }
 
         $scope.go = function (id) {
-            $state.go('view', {emailId: id});
+            $state.go('view', {emailId: id, fromState: $scope.currentState});
         };
 
         $scope.showEmail = function(id) {
-            console.log('show email ' + id);
             $scope.go(id);
+            $scope.emailToShow = id;
         };
 
-        $scope.removeEmail = function(id,folder) {
-            customFolders.deleteFolder(id,folder);
+        $scope.removeEmail = function(id) {
+            customFolders.deleteFolder(id,$scope.currentState);
+        };
+
+        $rootScope.$on('removeEmail', function(e,i){
+            customFolders.deleteFolderFromAll(i);
+        });
+
+        $scope.updateStorage = function(id) {
+            $rootScope.$broadcast('updateStorage', id);
         };
 
     });

@@ -25,7 +25,7 @@ angular.module('app')
                     if (receivers.length === 1) {
                         return receivers[0];
                     } else {
-                        return receivers[0] + " i inni";
+                        return receivers[0] + "and others";
                     }
                 };
 
@@ -50,7 +50,7 @@ angular.module('app')
                 };
 
                 scope.$watch('sent', function(value) {
-                    if(scope.sent !== undefined) {
+                    if(scope.sent !== null) {
                         if (scope.sent.length > len) {
                             if (len === 0) {
                                 loadEmails(scope.sent);
@@ -67,10 +67,6 @@ angular.module('app')
                 element.bind('click',function(event){
                     var tr = closest(event.target, 'tr');
                     var idToSend = tr.getAttribute('id');
-
-                    if(tr.classList.contains('new')){
-                        tr.classList.remove('new');
-                    }
 
                     scope.showSentEmail(idToSend);
                 });

@@ -1,5 +1,6 @@
 angular.module('app')
-    .controller('emailCtrl', ['$scope', '$rootScope','localStorageService', 'sent', '$state', function ($scope, $rootScope, localStorageService, sent, $state) {
+    .controller('emailCtrl', ['$scope', '$rootScope','localStorageService', 'sent', '$state',
+        function ($scope, $rootScope, localStorageService, sent, $state) {
         $scope.myForm = {};
         $scope.myForm.title = "";
         $scope.myForm.receivers = [];
@@ -9,7 +10,7 @@ angular.module('app')
         $scope.sent = localStorageService.get('sentEmails');
 
         $scope.myForm.addNewReceiver = function(item, event) {
-            if ($scope.myForm.newRec !== undefined) {
+            if ($scope.myForm.newRec !== undefined && $scope.myForm.newRec !== '') {
                 $scope.myForm.receivers[$scope.myForm.receivers.length] = $scope.myForm.newRec;
                 $scope.myForm.newRec = "";
             }

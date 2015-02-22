@@ -11,24 +11,8 @@ angular.module('app')
             controller: function($scope, $state, $stateParams) {
                 $scope.params = $stateParams;
                 $scope.go = function (id) {
-                    $state.go('view', {emailId: id});
+                    $state.go('view', {emailId: id, fromState: 'inbox'});
                 };
-            }
-        })
-
-        .state('create', {
-            url: '/create',
-            templateUrl: 'modules/create/email.html'
-        })
-
-        .state('view', {
-            url: '/view/{emailId}',
-            params: {
-                emailId: null
-            },
-            templateUrl: 'modules/emailView/emailView.html',
-            controller: function($scope, $stateParams) {
-                $scope.id = $stateParams.emailId;
             }
         })
 
@@ -38,20 +22,27 @@ angular.module('app')
             controller: function($scope, $state, $stateParams) {
                 $scope.params = $stateParams;
                 $scope.go = function (id) {
-                    $state.go('sentView', {sentId: id});
+                    $state.go('view', {emailId: id, fromState: 'sent'});
                 };
             }
         })
 
-        .state('sentView', {
-            url: '/sent/{sentId}',
+        .state('view', {
+            url: '/view/{emailId}',
             params: {
-                sentId: null
+                emailId: null,
+                fromState: null
             },
-            templateUrl: 'modules/sentView/sentView.html',
+            templateUrl: 'modules/emailView/emailView.html',
             controller: function($scope, $stateParams) {
-                $scope.id = $stateParams.sentId;
+                $scope.id = $stateParams.emailId;
+                $scope.state = $stateParams.fromState;
             }
+        })
+
+        .state('create', {
+            url: '/create',
+            templateUrl: 'modules/create/email.html'
         })
 
         .state('config', {

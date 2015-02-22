@@ -58,7 +58,7 @@ angular.module('app')
                             tr.classList.remove('new');
                         }
 
-                       // scope.updateStorage(idToSend);
+                        scope.updateStorage(idToSend);
                         scope.showEmail(idToSend,scope.currentState);
                     }
                 });

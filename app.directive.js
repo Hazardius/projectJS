@@ -8,26 +8,26 @@ angular.module('app')
             link: function(scope, element, attrs) {
                 // again we need the native object
 
-                element.bind('dragover',function(e) {
-                    e.dataTransfer.dropEffect = 'move';
+                element.bind('dragover',function(event) {
+                    event.dataTransfer.dropEffect = 'move';
                     // allows us to drop
-                    if (e.preventDefault) e.preventDefault();
+                    event.preventDefault();
                     this.classList.add('over');
                 });
 
-                element.bind('dragenter',function(e) {
+                element.bind('dragenter',function() {
                     this.classList.add('over');
                 });
 
-                element.bind('dragleave',function(e) {
+                element.bind('dragleave',function() {
                     this.classList.remove('over'); });
 
-                element.bind('drop', function(e) {
+                element.bind('drop', function(event) {
                     // Stops some browsers from redirecting.
-                    if (e.stopPropagation) e.stopPropagation();
+                    event.preventDefault();
                     this.classList.remove('over');
 
-                    var item = e.dataTransfer.getData('text');
+                    var item = event.dataTransfer.getData('text');
                     var folderId = this.id;
 
                     $rootScope.$broadcast('factoryCustomFolder', {id: item, folder: folderId});
