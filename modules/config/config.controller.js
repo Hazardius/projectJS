@@ -3,7 +3,8 @@ angular.module('app')
 
     $scope.bootstraps = [
         { name: 'bootstrap', url: 'bootstrap' },
-        { name: 'dark', url: 'dark' }
+        { name: 'dark', url: 'dark' },
+        { name: 'light', url: 'light' }
     ];
 
     $scope.$watch('data.theme', function () {
