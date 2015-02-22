@@ -82,12 +82,11 @@ angular.module('app')
                         removeEmail(emailToRemove);
                     } else {
                         // emails is clicked
-                        var tr = closest(event.target, 'tr');
-                        var idToSend = tr.getAttribute('id');
-                        console.log(tr);
+                        var tr = $(event.target).closest('tr');
+                        var idToSend = tr.attr('id');
 
-                        if(tr.classList.contains('new')){
-                            tr.classList.remove('new');
+                        if(tr.hasClass('new')){
+                            tr.removeClass('new');
                         }
 
                         scope.updateStorage(idToSend);
@@ -95,32 +94,17 @@ angular.module('app')
                     }
                 });
 
-                var closest = function(elem, selector) {
-                    var matchesSelector = elem.matches || elem.webkitMatchesSelector || elem.mozMatchesSelector || elem.msMatchesSelector;
-                    while (elem) {
-                        if (matchesSelector.bind(elem)(selector)) {
-                            return elem;
-                        } else {
-                            elem = elem.parentElement;
-                        }
-                    }
-                    return false;
-                };
-
                 // drag and drop
-                element.bind("dragstart", function(e) {
-                    var id = e.srcElement.id;
-                    console.log('id: ' + id);
+                element.bind("dragstart", function(event) {
+                    var tr = $(event.target).closest('tr');
+                    var id = tr.attr('id');
 
-                    e.dataTransfer.effectAllowed = 'move';
-                    e.dataTransfer.setData('text', id);
-
-                    return false;
+                    event.dataTransfer.effectAllowed = 'move';
+                    event.dataTransfer.setData('text', id);
 
                 });
 
                 element.bind("dragend", function(e) {
-                    return false;
                 });
 
             }

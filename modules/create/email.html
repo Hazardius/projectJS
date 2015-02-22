@@ -34,13 +34,12 @@
             </div>
 
             <label for="content">Content</label>
-            <textarea name="content"  ng-model="myForm.content" ng-minlength="2" ng-maxlength="1024" placeholder="Your message" cols="60" rows="6" required></textarea>
+            <textarea name="content" ng-model="myForm.content" ng-minlength="2" ng-maxlength="1024" placeholder="Your message" cols="60" rows="6" required></textarea>
             <div class="error" ng-messages="formName.content.$error">
                 <div ng-message="required">Please write your e-mail.</div>
                 <div ng-message="minlength">Your e-mail is too short.</div>
                 <div ng-message="maxlength">Your e-mail is too long.</div>
             </div>
-
 
             <input type="submit" class="btn btn-default" ng-click="myForm.submitTheForm()" value="Send an e-mail" ng-disabled="error || incomplete"/>
         </fieldset>

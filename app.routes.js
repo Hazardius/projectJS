@@ -16,9 +16,15 @@ angular.module('app')
             }
         })
 
-        .state('create', {
-            url: '/create',
-            templateUrl: 'modules/create/email.html'
+        .state('sent', {
+            url: '/sent',
+            templateUrl: 'modules/sent/sent.html',
+            controller: function($scope, $state, $stateParams) {
+                $scope.params = $stateParams;
+                $scope.go = function (id) {
+                    $state.go('view', {emailId: id, fromState: 'sent'});
+                };
+            }
         })
 
         .state('view', {
@@ -34,15 +40,9 @@ angular.module('app')
             }
         })
 
-        .state('sent', {
-            url: '/sent',
-            templateUrl: 'modules/sent/sent.html',
-            controller: function($scope, $state, $stateParams) {
-                $scope.params = $stateParams;
-                $scope.go = function (id) {
-                    $state.go('view', {sentId: id, fromState: 'sent'});
-                };
-            }
+        .state('create', {
+            url: '/create',
+            templateUrl: 'modules/create/email.html'
         })
 
         .state('config', {

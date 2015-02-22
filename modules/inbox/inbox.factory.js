@@ -32,7 +32,6 @@ angular.module('app')
             var nr = obj.getScope(list,id);
             list.splice(nr,1);
             localStorageService.add('localEmails',list);
-            console.log('usunieto emaila factory');
             return list;
         };
 

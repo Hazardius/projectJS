@@ -1,7 +1,6 @@
 angular.module('app')
     .controller('emailsCtrl', ['$scope', '$rootScope', 'localStorageService', 'emails', 'inboxFactory',
         function ($scope, $rootScope, localStorageService, emails, inboxFactory) {
-
             var emailsList = []; // list of emails from request
             $scope.emails = localStorageService.get('localEmails'); // check if local storage has emails
 

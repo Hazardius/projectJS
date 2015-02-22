@@ -1,14 +1,23 @@
 angular.module('app')
-    .controller('emailView', ['$scope', '$rootScope', 'emails', 'customFolders', '$state',
-        function ($scope, $rootScope, emails, customFolders, $state) {
-
-        emails.getOneEmail($scope.id).then(function(response) {
-            var emailToShow = response;
-            $scope.title = emailToShow.title;
-            $scope.rec = prettyReceivers(emailToShow.receivers);
-            $scope.sender = emailToShow.sender;
-            $scope.content = emailToShow.content;
-        });
+    .controller('emailView', ['$scope', '$rootScope', 'emails', 'sent', 'customFolders', '$state',
+        function ($scope, $rootScope, emails, sent, customFolders, $state) {
+            if ($scope.state === 'sent') {
+                sent.getOneSentEmail($scope.id).then(function(response) {
+                    var emailToShow = response;
+                    $scope.title = emailToShow.title;
+                    $scope.rec = prettyReceivers(emailToShow.receivers);
+                    $scope.sender = 'sosnowski@outlock.com';
+                    $scope.content = emailToShow.content;
+                });
+            } else {
+                emails.getOneEmail($scope.id).then(function(response) {
+                    var emailToShow = response;
+                    $scope.title = emailToShow.title;
+                    $scope.rec = 'sosnowski@outlock.com';
+                    $scope.sender = emailToShow.sender;
+                    $scope.content = emailToShow.content;
+                });
+            }
 
         // nice looking string about receivers
         var prettyReceivers = function(receivers) {
@@ -27,7 +36,9 @@ angular.module('app')
         };
 
         $scope.removeEmail = function() {
-            emails.deleteEmails($scope.id).then(function(response) { });
+            if ($scope.state !== 'sent') {
+                emails.deleteEmails($scope.id).then(function(response) { });
+            }
             $rootScope.$broadcast('removeEmail', $scope.id);
             $state.go($scope.state);
         };
