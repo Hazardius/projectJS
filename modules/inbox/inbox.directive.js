@@ -102,6 +102,8 @@ angular.module('app')
                     event.dataTransfer.effectAllowed = 'move';
                     event.dataTransfer.setData('text', id);
 
+                    return false;
+
                 });
 
                 element.bind("dragend", function(e) {

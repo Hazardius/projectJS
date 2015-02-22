@@ -15,16 +15,5 @@
             </div><!-- /input-group -->
             <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
         </div>
-        </div>
     </div>
-
-</div>
-
-<div class="btn-group">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-        Themes <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu">
-        <li role="presentation" ng-click="addNewFolder()"><a role="menuitem" tabindex="-1" href="">New Folder</a></li>
-    </ul>
 </div>

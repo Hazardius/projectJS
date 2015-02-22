@@ -1,7 +1,10 @@
 // NOTE: I added the .js extension to this gist so it would have syntax highlighting. This file should have NO file extension
 
 {
-
+    "globals": {
+      "$": false,
+      "jQuery": false
+    },
     // Predefined globals whom JSHint will ignore.
     "browser"       : true,   // Standard browser globals e.g. `window`, `document`.
 
@@ -9,7 +12,6 @@
     "rhino"         : false,
     "couch"         : false,
     "wsh"           : false,   // Windows Scripting Host.
-
 
     "predef"        : [  // Custom globals.
       "angular"
