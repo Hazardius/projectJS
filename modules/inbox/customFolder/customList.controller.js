@@ -1,7 +1,9 @@
 angular.module('app')
     .controller('customList', function ($scope, $rootScope, $state, customFolders, emails, inboxFactory, localStorageService) {
 
+        clearInterval($rootScope.refresh);
         $scope.currentState = $state.current.name; // name of view
+        $rootScope.$state = $state;
 
         var emailsList = [];
 

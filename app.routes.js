@@ -7,24 +7,12 @@ angular.module('app')
     $stateProvider
         .state('inbox', {
             url: '/inbox',
-            templateUrl: 'modules/inbox/inbox.html',
-            controller: function($scope, $state, $stateParams) {
-                $scope.params = $stateParams;
-                $scope.go = function (id) {
-                    $state.go('view', {emailId: id, fromState: 'inbox'});
-                };
-            }
+            templateUrl: 'modules/inbox/inbox.html'
         })
 
         .state('sent', {
             url: '/sent',
-            templateUrl: 'modules/sent/sent.html',
-            controller: function($scope, $state, $stateParams) {
-                $scope.params = $stateParams;
-                $scope.go = function (id) {
-                    $state.go('view', {emailId: id, fromState: 'sent'});
-                };
-            }
+            templateUrl: 'modules/sent/sent.html'
         })
 
         .state('view', {
@@ -33,11 +21,7 @@ angular.module('app')
                 emailId: null,
                 fromState: null
             },
-            templateUrl: 'modules/emailView/emailView.html',
-            controller: function($scope, $stateParams) {
-                $scope.id = $stateParams.emailId;
-                $scope.state = $stateParams.fromState;
-            }
+            templateUrl: 'modules/emailView/emailView.html'
         })
 
         .state('create', {

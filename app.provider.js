@@ -1,6 +1,5 @@
 angular.module('app')
     .provider('router', function($stateProvider) {
-
         this.$get = function($state) {
             return {
                 setRoutes: function(collection) {

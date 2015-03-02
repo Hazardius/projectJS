@@ -28,9 +28,11 @@ angular.module('app')
             emails.update(id,json).then(function(response) { });
         };
 
-        obj.removeEmail = function(list,id) {
-            var nr = obj.getScope(list,id);
-            list.splice(nr,1);
+        obj.removeEmail = function(list,ids) {
+            for(var i=0; i<ids.length; i++) {
+                var nr = obj.getScope(list,ids[i]);
+                list.splice(nr,1);
+            }
             localStorageService.add('localEmails',list);
             return list;
         };

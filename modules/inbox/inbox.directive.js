@@ -1,76 +1,110 @@
 angular.module('app')
-    .directive('list', function(){
+    .directive('list', ['$rootScope', 'localStorageService', function($rootScope, localStorageService){
         return {
             restrict: 'A',
             link: function(scope, element, attrs){
 
-                var len = 0;
+                var lenMails = 0;
 
                 // short content to show on the main page
-                var shortContent = function(data,nr) {
+                var shortContent = function(data) {
                     var shortContent = [];
                     var charCounter = 25;
-                    if (charCounter > data[nr].content.length) {
-                        charCounter = data[nr].content.length;
+                    if (charCounter > data.content.length) {
+                        charCounter = data.content.length;
                     }
                     for(var i = 0; i<charCounter; i++) {
-                        shortContent += data[nr].content[i];
+                        shortContent += data.content[i];
                     }
                     return shortContent;
                 };
 
-                // load email from localstorage
-                var loadEmails = function(data) {
-                    for(var nr=0; nr<data.length; nr++) {
-                        var cont = shortContent(data,nr);
-                        if (data[nr].read === false) {
-                            element.append('<tr draggable="true" class="new" id="' + data[nr].id + '"><td><span class="sender">' + data[nr].sender + '</span></td> + ' +
-                            '<td><span class="title">' +  data[nr].title + '</span></td><td><span class="content">' + cont  + '</span></td> + ' +
-                            '<td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td></tr>');
-                        } else {
-                            element.append('<tr draggable="true" id="' + data[nr].id + '"><td><span class="sender">' + data[nr].sender + '</span></td> + ' +
-                            '<td><span class="title">' +  data[nr].title + '</span></td><td><span class="content">' + cont  + '</span></td> + ' +
-                            '<td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td></tr>');
-                        }
+                var shortReceivers = function(receivers) {
+                    if (receivers.length === 0) {
+                        return "Noone";
+                    }
+                    if (receivers.length === 1) {
+                        return receivers[0];
+                    } else {
+                        return receivers[0] + " and others";
                     }
                 };
 
-                // add new email
-                var addEmail = function(size) {
-                    for (var i=0; i<size; i++) {
-                        var cont = shortContent(scope.emails,i);
-                        // add new(the first) email at the top of the list
-                        element.prepend('<tr draggable="true" class="new" id="' + scope.emails[i].id + '"><td><span class="sender">' + scope.emails[i].sender + '</span></td> + ' +
-                        '<td><span class="title">' +  scope.emails[i].title + '</span></td><td><span class="content">' + cont  + '</span></td> + ' +
-                        '<td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td></tr>');
-                        console.log('directive: new email added');
+                // load email from localstorage
+                var loadEmails = function(data) {
+                    var st = $rootScope.$state.current.name;
+                    for(var nr = data.length-1; nr >= 0; nr--) {
+                        addElement(data[nr], st);
                     }
                 };
 
                 var removeEmail = function(mail) {
                     mail.remove();
-                    len = len - 1;
+                    if ($rootScope.$state.current.name === 'inbox') {
+                        lenMails--;
+                    }
                 };
 
-                // watch changes
-                scope.$watch('emails', function(value) {
-                    console.log('zmienilo sie cos yeah! ');
-                    if(scope.emails !== null) {
-                        if (scope.emails.length > len) {
-                            if (len === 0) {
-                                // the first time from localstorage
-                                loadEmails(scope.emails);
-                                console.log('from localstorage');
-                                len = scope.emails.length;
-                            } else {
-                                // add to the list
-                                var diff = scope.emails.length - len;
-                                addEmail(diff);
-                                len = scope.emails.length;
-                            }
-                        }
+                var addElement = function(mail,state) {
+                    var nam = '';
+                    var cont = shortContent(mail);
+                    var newMail = mail.read;
+
+                    if (newMail === false) {
+                        newMail = 'new';
                     }
-                }, true);
+                    else {
+                        newMail = '';
+                    }
+
+                    if (state === 'sent') {
+                        nam = shortReceivers(mail.receivers);
+                        element.prepend('<tr draggable="true" class="' + newMail + '" id="' + mail.id + '"><td><span class="sender">' + nam + '</span></td> + ' +
+                        '<td><span class="title">' +  mail.title + '</span></td><td><span class="content">' + cont  + '</span></td> + ' +
+                        '</tr>');
+                    }
+                    else {
+                        nam = mail.sender;
+                        element.prepend('<tr draggable="true" class="' + newMail + '" id="' + mail.id + '"><td><span class="sender">' + nam + '</span></td> + ' +
+                        '<td><span class="title">' +  mail.title + '</span></td><td><span class="content">' + cont  + '</span></td> + ' +
+                        '<td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td></tr>');
+                    }
+                };
+
+
+                if ($rootScope.$state.current.name === 'sent') {
+                    var sentLoad = localStorageService.get('sentEmails');
+                    if (sentLoad  !== null) {
+                        loadEmails(sentLoad);
+                    }
+                    scope.$on('addEmailSent',function(event,arrgs){
+                        addElement(arrgs,'sent');
+                    });
+                }
+
+                if ($rootScope.$state.current.name === 'inbox') {
+                    var inboxLoad = localStorageService.get('localEmails');
+                    if (inboxLoad !== null) {
+                        loadEmails(inboxLoad);
+                        lenMails = inboxLoad.length;
+                    }
+                    scope.$on('addEmailInbox',function(event,arrgs){
+                        console.log(scope.emails.length + ' ' + lenMails);
+                        if (scope.emails.length !== lenMails) {
+                            addElement(arrgs,'inbox');
+                            lenMails++;
+                            console.log('raz inbox ' + arrgs.id);
+                        }
+                    });
+                }
+
+                scope.$on('addEmailsFromServer', function(event,arrgs){
+                    loadEmails(arrgs);
+                });
+
+                scope.$on('addEmailsSub',function(event,arrgs){
+                    addElement(arrgs,'custom');
+                });
 
                 // if element is clicked
                 element.bind('click',function(event){
@@ -89,10 +123,21 @@ angular.module('app')
                             tr.removeClass('new');
                         }
 
-                        scope.updateStorage(idToSend);
-                        scope.showEmail(idToSend);
+                        if ($rootScope.$state.current.name === 'sent') {
+                            console.log('sent');
+                            scope.showEmail(idToSend);
+                        }
+                        else if ($rootScope.$state.current.name === 'inbox'){
+                            console.log('inbox');
+                            scope.showEmail(idToSend);
+                        }
+                        else {
+                            console.log('cosInnego');
+                            scope.showEmail(idToSend,scope.currentState);
+                        }
                     }
                 });
+
 
                 // drag and drop
                 element.bind("dragstart", function(event) {
@@ -103,7 +148,6 @@ angular.module('app')
                     event.dataTransfer.setData('text', id);
 
                     return false;
-
                 });
 
                 element.bind("dragend", function(e) {
@@ -111,4 +155,4 @@ angular.module('app')
 
             }
         };
-    });
+    }]);

@@ -1,10 +1,16 @@
 angular.module('app')
-    .controller('sentCtrl', ['$scope', '$rootScope', 'localStorageService', 'sent', 'inboxFactory',
-        function ($scope, $rootScope, localStorageService, sent, inboxFactory) {
+    .controller('sentCtrl', ['$scope', '$rootScope', 'localStorageService', 'sent', 'inboxFactory', '$state', '$stateParams',
+        function ($scope, $rootScope, localStorageService, sent, inboxFactory, $state, $stateParams) {
             var sentList = []; // list of emails from request
 
-            $scope.sent = localStorageService.get('sentEmails'); // check if local storage has emails
+            clearInterval($rootScope.refresh);
+            $rootScope.$state = $state;
+            $scope.params = $stateParams;
+            $scope.go = function (id) {
+                $state.go('view', {emailId: id, fromState: 'sent'});
+            };
 
+            $scope.sent = localStorageService.get('sentEmails'); // check if local storage has emails
             if ($scope.sent === null) { // local storage has no emails
                 console.log('http required');
                 sent.getSentEmails().then(function(response){ // get emails
@@ -16,6 +22,8 @@ angular.module('app')
                 console.log('On local storage. Nothing do be done.');
             }
 
+            $rootScope.$broadcast('addEmailsFromServer', $scope.sent);
+
             // reverse emails; the first email is the newest
             var reverse = function(items) {
                 return items.slice().reverse();
@@ -23,12 +31,11 @@ angular.module('app')
 
             var addEmail = function(elem) {
                 $scope.sent.unshift(elem); // add to the beginning of an array
-                console.log('new email added');
                 localStorageService.add('sentEmails', $scope.sent);
+                $rootScope.$broadcast('addEmailSent',elem);
             };
 
-            $scope.showSentEmail = function(id) {
-                console.log('show email');
+            $scope.showEmail = function(id) {
                 $scope.emailToShow = id;
                 $scope.go(id);
                 $rootScope.$broadcast('emailId',id);

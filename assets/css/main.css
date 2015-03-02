@@ -139,3 +139,10 @@
   -khtml-user-drag: element;
   -webkit-user-drag: element;
 }
+.row .col-md-12 table tr {
+  cursor: pointer;
+}
+.row .col-md-12 table tr td:hover {
+  background-color: indianred;
+  color: white;
+}
